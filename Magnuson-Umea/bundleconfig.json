@@ -1,0 +1,16 @@
+[
+  {
+    "outputFileName": "scripts/umeaBundle.js",
+    "inputFiles": [
+      "scripts/umeaData.js",
+      "scripts/umea.js"
+    ]
+  },
+  {
+    "outputFileName": "scripts/slopeBundle.js",
+    "inputFiles": [
+      "scripts/slopeData.js",
+      "scripts/slope.js"
+    ]
+  }
+]

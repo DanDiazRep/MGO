@@ -1,0 +1,575 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>VALUTA Product Configurator</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/x-icon" href="assets/layout/mg-logo.ico">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="https://cloud.typography.com/6974072/711764/css/fonts.css">
+    <link rel="stylesheet" type="text/css" href="https://fast.fonts.net/cssapi/7ebbb4b1-23d6-41ef-a66f-9c2686917e5a.css">
+    <link rel="stylesheet" type="text/css" href="https://fast.fonts.net/cssapi/32dc9da3-a22d-4439-a9cf-00ad49532e97.css">
+    <link rel="stylesheet" type="text/css" href="https://magnuson.blob.core.windows.net/sitedocs/configurator/configurator.css">
+    </head>
+<body>
+    <div class="row" id="exportContainer">
+        <div class="configurationwrapper" style="margin: 0px auto;overflow: hidden;max-width: 1200px;padding: 0;box-sizing: border-box;background: transparent;">
+            <div style="position: relative;width: 100%;height: 0px;padding-bottom: 56.25%;border:solid 1px rgb(220,220,220);">
+                <div class="pdf" id="canvasContainer" style="position: absolute; left: 0px; top: 0px; width: 100%; height: 100%">
+                    <div class="row no-gutter" id="canvasRowContainer">
+                        <div id="loadingLabel">Loading, please wait...</div>
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-animated" role="progressbar" style="width:0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <canvas id="magnusonCanvas" style="position:sticky; top: 0; outline: none; width: 100%; height: 100%; touch-action: none; cursor: pointer;" touch-action="none" tabindex="1"></canvas>
+                        <div id="fullscreen" onclick="switchFullscreen()">
+                            <svg width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-arrows-fullscreen" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path id="fullscreenIcon" fill-rule="evenodd" d="M1.5 1a.5.5 0 0 0-.5.5v4a.5.5 0 0 1-1 0v-4A1.5 1.5 0 0 1 1.5 0h4a.5.5 0 0 1 0 1h-4zM10 .5a.5.5 0 0 1 .5-.5h4A1.5 1.5 0 0 1 16 1.5v4a.5.5 0 0 1-1 0v-4a.5.5 0 0 0-.5-.5h-4a.5.5 0 0 1-.5-.5zM.5 10a.5.5 0 0 1 .5.5v4a.5.5 0 0 0 .5.5h4a.5.5 0 0 1 0 1h-4A1.5 1.5 0 0 1 0 14.5v-4a.5.5 0 0 1 .5-.5zm15 0a.5.5 0 0 1 .5.5v4a1.5 1.5 0 0 1-1.5 1.5h-4a.5.5 0 0 1 0-1h4a.5.5 0 0 0 .5-.5v-4a.5.5 0 0 1 .5-.5z" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="featureoptions" style="margin: 0px auto;overflow: hidden;max-width: 1200px;padding: 0;box-sizing: border-box;background: transparent;">
+            <div id="featuresContainer">
+                <div class="row" id="featuresChoice"></div>
+            </div>
+            <div id="optionsContainer">
+                <div class="row" id="optionsDescription"></div>
+                <div class="row" id="receptacleChoice"></div>
+                <div class="list-group" id="optionsList"></div>
+                <div class="row" id="optionsCheckbox"></div>
+            </div>
+            <div id="buttonsContainer">
+                <a title="" class="download" style="margin-right:20px;" onclick="createPDFFunction()">PDF</a>
+                <a title="" class="download" style="margin-right:20px;" onclick="createImageFunction()">Image</a>
+                <input id="slider1" class="border-0" type="range" min="0" max="1" step="0.05" value="0.25" />
+                <span class="valueSpan">0.25</span>
+
+            </div>
+            <div id="summaryContainer" class="pdf" style="width: 100%;">
+                <div class="configuration">
+                    <img alt="Magnuson Group" src="https://magnuson.blob.core.windows.net/sitedocs/imagegallery/mg-logo.png" class="mlogo">
+                    <h1>SLOPE PRODUCT SPECIFICATIONS</h1>
+
+                    <div id="summaryCarousel" class="carousel slide" data-interval="0" data-pause="hover">
+
+                        <!-- Indicators -->
+                        <ul class="carousel-indicators">
+                            <li class="u1 indicator active"><div>1</div></li>
+                            <li class="u2 indicator" style="display: none"><div>2</div></li>
+                            <li class="u3 indicator" style="display: none"><div>3</div></li>
+                            <li class="u4 indicator" style="display: none"><div>4</div></li>
+                        </ul>
+                        <!-- The slideshow -->
+                        <div class="carousel-inner">
+                            <div class="carousel-item summary-item active" id="summary1">
+                                <div class="selection" id="model">
+                                    <p>Model #1</p>
+                                    <p id="pn1">SLP-01L</p>
+                                </div>
+                                <div class="selection" id="bodySelection">
+                                    <p>Body</p>
+                                    <img id="bodyImage1" src="https://magnuson.blob.core.windows.net/sitedocs/configurator/slope/slope-1.jpg" border="0">
+                                    <p id="bodyText1" class="copy">Standard Height</p>
+                                    <img id="body-colorImage1" border="0" src="https://magnuson.blob.core.windows.net/sitedocs/configurator/slope/lunar-white-slope-body_color.jpg">
+                                    <p id="body-colorText1" class="copy">Lunar White</p>
+                                </div>
+                                <div class="selection center" id="openingSelection">
+                                    <p id="openingFeatureText1">Opening</p>
+                                    <img id="openingImage1" src="https://magnuson.blob.core.windows.net/sitedocs/configurator/slope/opening-square.jpg">
+                                    <p id="openingText1" class="copy">Waste Opening</p>
+                                    <img id="opening-colorImage1" border="0" src="https://magnuson.blob.core.windows.net/sitedocs/configurator/slope/anodized-silver-slope-body_color.jpg">
+                                    <p id="opening-colorText1" class="copy">Anodized Silver</p>
+                                </div>
+                                <div class="selection center" id="labelCenterSelection1">
+                                    <p id="Label_CFeatureText1">Label</p>
+                                    <img id="Label_CImage1" src="https://magnuson.blob.core.windows.net/sitedocs/configurator/slope/slope-label-recycling.jpg">
+                                    <p id="Label_CText1" class="copy">Recycling</p>
+                                    <img id="label-colorCImage1" border="0" src="https://magnuson.blob.core.windows.net/sitedocs/configurator/slope/lunar-white-slope-body_color.jpg">
+                                    <p id="label-colorCText1" class="copy">White Vinyl</p>
+                                </div>
+                                <div class="selection left" id="labelLeftSelection1" style="display: none">
+                                    <p id="Label_LFeatureText1">Label (Left)</p>
+                                    <img id="Label_LImage1" src="https://magnuson.blob.core.windows.net/sitedocs/configurator/slope/slope-label-waste.jpg">
+                                    <p id="Label_LText1" class="copy">Waste</p>
+                                    <img id="label-colorLImage1" border="0" src="https://magnuson.blob.core.windows.net/sitedocs/configurator/slope/lunar-white-slope-body_color.jpg">
+                                    <p id="label-colorLText1" class="copy">White Vinyl</p>
+                                </div>
+                                <div class="selection right" id="labelRightSelection1" style="display: none">
+                                    <p id="Label_RFeatureText1">Label (Right)</p>
+                                    <img id="Label_RImage1" src="https://magnuson.blob.core.windows.net/sitedocs/configurator/slope/slope-label-recycling.jpg">
+                                    <p id="Label_RText1" class="copy">Recycling</p>
+                                    <img id="label-colorRImage1" border="0" src="https://magnuson.blob.core.windows.net/sitedocs/configurator/slope/lunar-white-slope-body_color.jpg">
+                                    <p id="label-colorRText1" class="copy">White Vinyl</p>
+                                </div>
+                                <div class="selection glides" id="glidesSelection1" style="display: none">
+                                    <p id="GlidesFeatureText1">Glides</p>
+                                    <img id="GlidesImage1" src="/assets/layout/slope-adjustable-glides.jpg">
+                                    <p id="GlidesText1" class="copy">Adjustable Glides</p>
+                                </div>
+                            </div>
+                            <div class="carousel-item summary-item" id="summary2">
+                                <div class="selection" id="model">
+                                    <p>Model #2</p>
+                                    <p id="pn2">SLP-01L</p>
+                                </div>
+                                <div class="selection" id="bodySelection">
+                                    <p>Body</p>
+                                    <img id="bodyImage2" src="https://magnuson.blob.core.windows.net/sitedocs/configurator/slope/slope-1.jpg" border="0">
+                                    <p id="bodyText2" class="copy">Standard Height</p>
+                                    <img id="body-colorImage2" border="0" src="https://magnuson.blob.core.windows.net/sitedocs/configurator/slope/lunar-white-slope-body_color.jpg">
+                                    <p id="body-colorText2" class="copy">Lunar White</p>
+                                </div>
+                                <div class="selection center" id="openingSelection">
+                                    <p id="openingFeatureText2">Opening</p>
+                                    <img id="openingImage2" src="https://magnuson.blob.core.windows.net/sitedocs/configurator/slope/opening-square.jpg">
+                                    <p id="openingText2" class="copy">Waste Opening</p>
+                                    <img id="opening-colorImage2" border="0" src="https://magnuson.blob.core.windows.net/sitedocs/configurator/slope/anodized-silver-slope-body_color.jpg">
+                                    <p id="opening-colorText2" class="copy">Anodized Silver</p>
+                                </div>
+                                <div class="selection center" id="labelCenterSelection2">
+                                    <p id="Label_CFeatureText2">Label</p>
+                                    <img id="Label_CImage2" src="https://magnuson.blob.core.windows.net/sitedocs/configurator/slope/slope-label-recycling.jpg">
+                                    <p id="Label_CText2" class="copy">Recycling</p>
+                                    <img id="label-colorCImage2" border="0" src="https://magnuson.blob.core.windows.net/sitedocs/configurator/slope/lunar-white-slope-body_color.jpg">
+                                    <p id="label-colorCText2" class="copy">White Vinyl</p>
+                                </div>
+                                <div class="selection left" id="labelLeftSelection2" style="display: none">
+                                    <p id="Label_LFeatureText2">Label (Left)</p>
+                                    <img id="Label_LImage2" src="https://magnuson.blob.core.windows.net/sitedocs/configurator/slope/slope-label-waste.jpg">
+                                    <p id="Label_LText2" class="copy">Waste</p>
+                                    <img id="label-colorLImage2" border="0" src="https://magnuson.blob.core.windows.net/sitedocs/configurator/slope/lunar-white-slope-body_color.jpg">
+                                    <p id="label-colorLText2" class="copy">White Vinyl</p>
+                                </div>
+                                <div class="selection right" id="labelRightSelection2" style="display: none">
+                                    <p id="Label_RFeatureText2">Label (Right)</p>
+                                    <img id="Label_RImage2" src="https://magnuson.blob.core.windows.net/sitedocs/configurator/slope/slope-label-recycling.jpg">
+                                    <p id="Label_RText2" class="copy">Recycling</p>
+                                    <img id="label-colorRImage2" border="0" src="https://magnuson.blob.core.windows.net/sitedocs/configurator/slope/lunar-white-slope-body_color.jpg">
+                                    <p id="label-colorRText2" class="copy">White Vinyl</p>
+                                </div>
+                                <div class="selection glides" id="glidesSelection2" style="display: none">
+                                    <p id="GlidesFeatureText2">Glides</p>
+                                    <img id="GlidesImage2" src="/assets/layout/slope-adjustable-glides.jpg">
+                                    <p id="GlidesText2" class="copy">Adjustable Glides</p>
+                                </div>
+                            </div>
+                            <div class="carousel-item summary-item" id="summary3">
+                                <div class="selection" id="model">
+                                    <p>Model #3</p>
+                                    <p id="pn3">SLP-01L</p>
+                                </div>
+                                <div class="selection" id="bodySelection">
+                                    <p>Body</p>
+                                    <img id="bodyImage3" src="https://magnuson.blob.core.windows.net/sitedocs/configurator/slope/slope-1.jpg" border="0">
+                                    <p id="bodyText3" class="copy">Standard Height</p>
+                                    <img id="body-colorImage3" border="0" src="https://magnuson.blob.core.windows.net/sitedocs/configurator/slope/lunar-white-slope-body_color.jpg">
+                                    <p id="body-colorText3" class="copy">Lunar White</p>
+                                </div>
+                                <div class="selection center" id="openingSelection">
+                                    <p id="openingFeatureText3">Opening</p>
+                                    <img id="openingImage3" src="https://magnuson.blob.core.windows.net/sitedocs/configurator/slope/opening-square.jpg">
+                                    <p id="openingText3" class="copy">Waste Opening</p>
+                                    <img id="opening-colorImage3" border="0" src="https://magnuson.blob.core.windows.net/sitedocs/configurator/slope/anodized-silver-slope-body_color.jpg">
+                                    <p id="opening-colorText3" class="copy">Anodized Silver</p>
+                                </div>
+                                <div class="selection center" id="labelCenterSelection3">
+                                    <p id="Label_CFeatureText3">Label</p>
+                                    <img id="Label_CImage3" src="https://magnuson.blob.core.windows.net/sitedocs/configurator/slope/slope-label-recycling.jpg">
+                                    <p id="Label_CText3" class="copy">Recycling</p>
+                                    <img id="label-colorCImage3" border="0" src="https://magnuson.blob.core.windows.net/sitedocs/configurator/slope/lunar-white-slope-body_color.jpg">
+                                    <p id="label-colorCText3" class="copy">White Vinyl</p>
+                                </div>
+                                <div class="selection left" id="labelLeftSelection3" style="display: none">
+                                    <p id="Label_LFeatureText3">Label (Left)</p>
+                                    <img id="Label_LImage3" src="https://magnuson.blob.core.windows.net/sitedocs/configurator/slope/slope-label-waste.jpg">
+                                    <p id="Label_LText3" class="copy">Waste</p>
+                                    <img id="label-colorLImage3" border="0" src="https://magnuson.blob.core.windows.net/sitedocs/configurator/slope/lunar-white-slope-body_color.jpg">
+                                    <p id="label-colorLText3" class="copy">White Vinyl</p>
+                                </div>
+                                <div class="selection right" id="labelRightSelection3" style="display: none">
+                                    <p id="Label_RFeatureText3">Label (Right)</p>
+                                    <img id="Label_RImage3" src="https://magnuson.blob.core.windows.net/sitedocs/configurator/slope/slope-label-recycling.jpg">
+                                    <p id="Label_RText3" class="copy">Recycling</p>
+                                    <img id="label-colorRImage3" border="0" src="https://magnuson.blob.core.windows.net/sitedocs/configurator/slope/lunar-white-slope-body_color.jpg">
+                                    <p id="label-colorRText3" class="copy">White Vinyl</p>
+                                </div>
+                                <div class="selection glides" id="glidesSelection3" style="display: none">
+                                    <p id="GlidesFeatureText3">Glides</p>
+                                    <img id="GlidesImage3" src="/assets/layout/slope-adjustable-glides.jpg">
+                                    <p id="GlidesText3" class="copy">Adjustable Glides</p>
+                                </div>
+                            </div>
+                            <div class="carousel-item summary-item" id="summary4">
+                                <div class="selection" id="model">
+                                    <p>Model #4</p>
+                                    <p id="pn4">SLP-01L</p>
+                                </div>
+                                <div class="selection" id="bodySelection">
+                                    <p>Body</p>
+                                    <img id="bodyImage4" src="https://magnuson.blob.core.windows.net/sitedocs/configurator/slope/slope-1.jpg" border="0">
+                                    <p id="bodyText4" class="copy">Standard Height</p>
+                                    <img id="body-colorImage4" border="0" src="https://magnuson.blob.core.windows.net/sitedocs/configurator/slope/lunar-white-slope-body_color.jpg">
+                                    <p id="body-colorText4" class="copy">Lunar White</p>
+                                </div>
+                                <div class="selection center" id="openingSelection">
+                                    <p id="openingFeatureText4">Opening</p>
+                                    <img id="openingImage4" src="https://magnuson.blob.core.windows.net/sitedocs/configurator/slope/opening-square.jpg">
+                                    <p id="openingText4" class="copy">Waste Opening</p>
+                                    <img id="opening-colorImage4" border="0" src="https://magnuson.blob.core.windows.net/sitedocs/configurator/slope/anodized-silver-slope-body_color.jpg">
+                                    <p id="opening-colorText4" class="copy">Anodized Silver</p>
+                                </div>
+                                <div class="selection center" id="labelCenterSelection4">
+                                    <p id="Label_CFeatureText4">Label</p>
+                                    <img id="Label_CImage4" src="https://magnuson.blob.core.windows.net/sitedocs/configurator/slope/slope-label-recycling.jpg">
+                                    <p id="Label_CText4" class="copy">Recycling</p>
+                                    <img id="label-colorCImage4" border="0" src="https://magnuson.blob.core.windows.net/sitedocs/configurator/slope/lunar-white-slope-body_color.jpg">
+                                    <p id="label-colorCText4" class="copy">White Vinyl</p>
+                                </div>
+                                <div class="selection left" id="labelLeftSelection4" style="display: none">
+                                    <p id="Label_LFeatureText4">Label (Left)</p>
+                                    <img id="Label_LImage4" src="https://magnuson.blob.core.windows.net/sitedocs/configurator/slope/slope-label-waste.jpg">
+                                    <p id="Label_LText4" class="copy">Waste</p>
+                                    <img id="label-colorLImage4" border="0" src="https://magnuson.blob.core.windows.net/sitedocs/configurator/slope/lunar-white-slope-body_color.jpg">
+                                    <p id="label-colorLText4" class="copy">White Vinyl</p>
+                                </div>
+                                <div class="selection right" id="labelRightSelection4" style="display: none">
+                                    <p id="Label_RFeatureText4">Label (Right)</p>
+                                    <img id="Label_RImage4" src="https://magnuson.blob.core.windows.net/sitedocs/configurator/slope/slope-label-recycling.jpg">
+                                    <p id="Label_RText4" class="copy">Recycling</p>
+                                    <img id="label-colorRImage4" border="0" src="https://magnuson.blob.core.windows.net/sitedocs/configurator/slope/lunar-white-slope-body_color.jpg">
+                                    <p id="label-colorRText4" class="copy">White Vinyl</p>
+                                </div>
+                                <div class="selection glides" id="glidesSelection4" style="display: none">
+                                    <p id="GlidesFeatureText4">Glides</p>
+                                    <img id="GlidesImage4" src="/assets/layout/slope-adjustable-glides.jpg">
+                                    <p id="GlidesText4" class="copy">Adjustable Glides</p>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        #pn1 {
+            width: 100px;
+        }
+
+        #pn2 {
+            width: 100px;
+        }
+
+        #pn3 {
+            width: 100px;
+        }
+
+        #pn4 {
+            width: 100px;
+        }
+
+        #loadingLabel {
+            position: absolute;
+            width: 100%;
+            top: 90%;
+            font-size: 1rem;
+            text-align: center;
+            z-index: 10;
+        }
+
+        .progress-bar {
+            background-color: black;
+            border-radius: 50px;
+        }
+
+        .progress {
+            display: flex;
+            height: 15px;
+            overflow: hidden;
+            font-size: 2.5vh;
+            background: #f5f5f5;
+            border-radius: .25rem;
+            width: 40%;
+            position: absolute;
+            left: 30%;
+            bottom: 10%;
+            padding: 0.4vh;
+            z-index: 10;
+        }
+
+        div.configuration div.selection p {
+            width: 74px;
+        }
+
+        div.configuration div.selection img {
+            margin-left: 0px;
+        }
+
+        div.text {
+            padding-top: 8px;
+            padding-bottom: 14px;
+            font-size: 12px;
+            line-height: 15px;
+            text-align: left;
+        }
+
+        #fullscreen {
+            position: absolute;
+            right: 5px;
+            bottom: 5px;
+            background-color: white;
+            border: 5px;
+            padding: 10px;
+            border-radius: 36px;
+            cursor: pointer;
+        }
+
+            #fullscreen:hover {
+                box-shadow: 0 3px 5px 0px rgba(0,0,0,0.5);
+            }
+
+
+        /*style label to give some more space*/
+        .wrapper {
+            position: relative;
+            cursor: pointer;
+        }
+
+            /*style label to give some more space*/
+            .wrapper label {
+                display: block;
+                height: 50px;
+                width: 50px;
+            }
+
+            /*style and hide original checkbox*/
+            .wrapper input {
+                height: 50px;
+                left: 0;
+                opacity: 0;
+                position: absolute;
+                top: 0;
+                width: 50px;
+            }
+
+                /*position new box*/
+                .wrapper input + label::before {
+                    border: 1px solid rgb(210,210,210);
+                    content: "";
+                    height: 50px;
+                    left: 0;
+                    position: absolute;
+                    top: 0;
+                    width: 50px;
+                }
+
+                /*create check symbol with pseudo element*/
+                .wrapper input + label::after {
+                    content: "";
+                    border: 4px solid;
+                    border-left: 0;
+                    border-top: 0;
+                    height: 31px;
+                    left: 16px;
+                    opacity: 0;
+                    position: absolute;
+                    top: 5px;
+                    transform: rotate(45deg);
+                    transition: opacity 0.2s ease-in-out;
+                    width: 19px;
+                }
+
+                /*reveal check for 'on' state*/
+                .wrapper input:checked + label::after {
+                    opacity: 1;
+                }
+
+        label {
+            margin-bottom: 0;
+            cursor: pointer;
+        }
+
+        .receptacleSelector {
+            margin-bottom: 10px;
+            background-color: rgb(210,210,210);
+            border-radius: 0;
+            margin-right: 10px;
+            color: white;
+            text-align: center;
+            cursor: pointer;
+            position: inherit;
+            top: 0;
+            width: 100%;
+            height: 30px;
+            padding: 7px;
+        }
+
+        #replicateColDivider:first-child {
+            padding-left: 0;
+        }
+
+        #replicateColDivider:last-child {
+            padding-right: 0;
+        }
+
+        .carousel-inner {
+        }
+
+        .carousel-indicators {
+            position: unset;
+            margin: 0;
+        }
+
+        .configuration {
+            min-height: 460px;
+        }
+
+        .carousel-indicators li {
+            background-color: #696969;
+            width: 25px;
+            height: 25px;
+            text-indent: 0px;
+            text-align: center;
+            color: white;
+        }
+
+            .carousel-indicators li div {
+                padding-top: 5px;
+            }
+
+        input[type=range] {
+            height: 8px;
+            -webkit-appearance: none;
+            margin: 10px 0;
+        }
+
+            input[type=range]:focus {
+                outline: none;
+            }
+
+            input[type=range]::-webkit-slider-runnable-track {
+                width: 100%;
+                height: 5px;
+                cursor: pointer;
+                animate: 0.2s;
+                box-shadow: 0px 0px 0px #000000;
+                background: #7AD2E7;
+                border-radius: 0px;
+                border: 0px solid #000000;
+            }
+
+            input[type=range]::-webkit-slider-thumb {
+                box-shadow: 0px 0px 0px #000000;
+                border: 1px solid #7AD2E7;
+                height: 18px;
+                width: 18px;
+                border-radius: 18px;
+                background: #7AD2E7;
+                cursor: pointer;
+                -webkit-appearance: none;
+                margin-top: -7px;
+            }
+
+            input[type=range]:focus::-webkit-slider-runnable-track {
+                background: #7AD2E7;
+            }
+
+            input[type=range]::-moz-range-track {
+                width: 100%;
+                height: 5px;
+                cursor: pointer;
+                animate: 0.2s;
+                box-shadow: 0px 0px 0px #000000;
+                background: #7AD2E7;
+                border-radius: 0px;
+                border: 0px solid #000000;
+            }
+
+            input[type=range]::-moz-range-thumb {
+                box-shadow: 0px 0px 0px #000000;
+                border: 1px solid #7AD2E7;
+                height: 18px;
+                width: 18px;
+                border-radius: 18px;
+                background: #7AD2E7;
+                cursor: pointer;
+            }
+
+            input[type=range]::-ms-track {
+                width: 100%;
+                height: 5px;
+                cursor: pointer;
+                animate: 0.2s;
+                background: transparent;
+                border-color: transparent;
+                color: transparent;
+            }
+
+            input[type=range]::-ms-fill-lower {
+                background: #7AD2E7;
+                border: 0px solid #000000;
+                border-radius: 0px;
+                box-shadow: 0px 0px 0px #000000;
+            }
+
+            input[type=range]::-ms-fill-upper {
+                background: #7AD2E7;
+                border: 0px solid #000000;
+                border-radius: 0px;
+                box-shadow: 0px 0px 0px #000000;
+            }
+
+            input[type=range]::-ms-thumb {
+                margin-top: 1px;
+                box-shadow: 0px 0px 0px #000000;
+                border: 1px solid #7AD2E7;
+                height: 18px;
+                width: 18px;
+                border-radius: 18px;
+                background: #7AD2E7;
+                cursor: pointer;
+            }
+
+            input[type=range]:focus::-ms-fill-lower {
+                background: #7AD2E7;
+            }
+
+            input[type=range]:focus::-ms-fill-upper {
+                background: #7AD2E7;
+            }
+
+        .valueSpan {
+            color: #7AD2E7 !important;
+            text-align: center;
+            padding: 5px 0;
+            width: 68px;
+            font-size: 12px;
+            line-height: 15px;
+        }
+    </style>
+
+
+
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <script src="https://kendo.cdn.telerik.com/2017.2.621/js/jszip.min.js"></script>
+    <script src="https://kendo.cdn.telerik.com/2017.2.621/js/kendo.all.min.js"></script>
+    <script src="https://cdn.babylonjs.com/babylon.js"></script>
+    <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
+    <script src="https://cdn.babylonjs.com/serializers/babylon.glTF2Serializer.min.js"></script>
+    <script src="https://magnuson.blob.core.windows.net/sitedocs/imagegallery/configurator2/scripts/watermark.js" crossorigin="anonymous"></script>
+    <script src="/scripts/valutaData.js" crossorigin="anonymous"></script>
+    <script src="/scripts/valuta.js" crossorigin="anonymous"></script>
+    <script src="/scripts/editFunctions.js" crossorigin="anonymous"></script>
+    <script src="/scripts/uiFunctions.js" crossorigin="anonymous"></script>
+
+</body>
+</html>
