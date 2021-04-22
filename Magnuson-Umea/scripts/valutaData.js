@@ -10,28 +10,28 @@
             "Options": [
                 {
                     "Id": 1,
-                    "Code": "1",
+                    "Code": "0",
                     "Label": "1 Unit",
                     "Thumbnail": "https://magnuson.blob.core.windows.net/sitedocs/configurator/valuta/valuta-1.jpg",
                     "Active": true,
                 },
                 {
                     "Id": 2,
-                    "Code": "2",
+                    "Code": "1",
                     "Label": "2 Units",
                     "Thumbnail": "https://magnuson.blob.core.windows.net/sitedocs/configurator/valuta/valuta-2.jpg",
                     "Active": false,
                 },
                 {
                     "Id": 3,
-                    "Code": "3",
+                    "Code": "2",
                     "Label": "3 Units",
                     "Thumbnail": "https://magnuson.blob.core.windows.net/sitedocs/configurator/valuta/valuta-3.jpg",
                     "Active": false,
                 },
                 {
                     "Id": 4,
-                    "Code": "4",
+                    "Code": "3",
                     "Label": "4 Units",
                     "Thumbnail": "https://magnuson.blob.core.windows.net/sitedocs/configurator/valuta/valuta-4.jpg",
                     "Active": false,
@@ -133,10 +133,31 @@
             ],
         }, //Body-Color
         {
+            "Id": 2,
+            "Code": "body-rotation",
+            "Label": "",
+            "Thumbnail": "http://files.magnusongroup.com/sitedocs/configurator/Umea-None.jpg",
+            "Options": [
+                {
+                    "Id": 1,
+                    "Code": "clockwise",
+                    "Label": "",
+                    "Thumbnail": "https://magnuson.blob.core.windows.net/sitedocs/configurator/valuta/degree-0.jpg",
+                },
+                {
+                    "Id": 2,
+                    "Code": "counterclockwise",
+                    "Label": "",
+                    "Thumbnail": "https://magnuson.blob.core.windows.net/sitedocs/configurator/valuta/degree-90.jpg",
+
+                }                
+            ],
+        }, //Body-Color
+        {
             "Id": 3,
-            "Code": "openings",
+            "Code": "opening",
             "Label": "Opening",
-            "Layers": ["Top1", "Top2", "Top3", "Top4"],
+            "Layers": ["TopWaste", "TopPaper", "TopCircle", "TopPaperCircle"],
             "Description": "Please select the top opening and finish color for each VALUTA unit.",
             "Thumbnail": "https://magnuson.blob.core.windows.net/sitedocs/configurator/valuta/main-top-opening.jpg",
             "Options": [
@@ -144,7 +165,7 @@
                     "Id": 1,
                     "Code": "opening-waste",
                     "Label": "Waste",
-                    "Layer": "Top1",
+                    "Layer": "TopWaste",
                     "Thumbnail": "https://magnuson.blob.core.windows.net/sitedocs/configurator/valuta/valuta-1809-top-opening-waste.jpg",
                     "PartNumber": "W",
                     "Active": true,
@@ -153,7 +174,7 @@
                     "Id": 2,
                     "Code": "opening-paper",
                     "Label": "Paper",
-                    "Layer": "Top2",
+                    "Layer": "TopPaper",
                     "Thumbnail": "https://magnuson.blob.core.windows.net/sitedocs/configurator/valuta/valuta-1809-top-opening-paper.jpg",
                     "PartNumber": "P",
                     "Active": false,
@@ -162,7 +183,7 @@
                     "Id": 3,
                     "Code": "opening-circle",
                     "Label": "Circle",
-                    "Layer": "Top3",
+                    "Layer": "TopCircle",
                     "Thumbnail": "https://magnuson.blob.core.windows.net/sitedocs/configurator/valuta/valuta-1809-top-opening-cansplasticglass.jpg",
                     "PartNumber": "C",
                     "Active": false,
@@ -170,15 +191,15 @@
                 {
                     "Id": 4,
                     "Code": "opening-paper-circle",
-                    "Label": "Paer/Circle",
-                    "Layer": "Top4",
+                    "Label": "Paper/Circle",
+                    "Layer": "TopPaperCircle",
                     "Thumbnail": "https://magnuson.blob.core.windows.net/sitedocs/configurator/valuta/valuta-1809-top-opening-comingle.jpg",
                     "PartNumber": "PC",
                     "Active": false,
                 },
                
             ],
-        }, //Opening-Single       
+        }, //Opening     
         {
             "Id": 3,
             "Code": "opening-color",
@@ -240,12 +261,12 @@
                     "Material": [
                         {
                             "Channel": "albedoTexture",
-                            "Url": "/assets/materials/label-cans.png",
+                            "Url": "/assets/valuta/materials/labels/Cans.png",
                             "Layers": ["Label1", "Label2", "Label3", "Label4"]
                         },
                         {
                             "Channel": "opacityTexture",
-                            "Url": "/assets/materials/label-cans.png",
+                            "Url": "/assets/valuta/materials/labels/Cans.png",
                             "Layers": ["Label1", "Label2", "Label3", "Label4"]
                         }
                     ],
@@ -260,7 +281,12 @@
                     "Material": [
                         {
                             "Channel": "albedoTexture",
-                            "Url": "/assets/materials/label-cans.png",
+                            "Url": "/assets/valuta/materials/labels/Compost.png",
+                            "Layers": ["Label1", "Label2", "Label3", "Label4"]
+                        },
+                        {
+                            "Channel": "opacityTexture",
+                            "Url": "/assets/valuta/materials/labels/Compost.png",
                             "Layers": ["Label1", "Label2", "Label3", "Label4"]
                         }
                     ],
@@ -275,7 +301,12 @@
                     "Material": [
                         {
                             "Channel": "albedoTexture",
-                            "Url": "/assets/materials/label-cans.png",
+                            "Url": "/assets/valuta/materials/labels/Glass.png",
+                            "Layers": ["Label1", "Label2", "Label3", "Label4"]
+                        },
+                        {
+                            "Channel": "opacityTexture",
+                            "Url": "/assets/valuta/materials/labels/Glass.png",
                             "Layers": ["Label1", "Label2", "Label3", "Label4"]
                         }
                     ],
@@ -290,7 +321,12 @@
                     "Material": [
                         {
                             "Channel": "albedoTexture",
-                            "Url": "/assets/materials/label-cans.png",
+                            "Url": "/assets/valuta/materials/labels/Landfill.png",
+                            "Layers": ["Label1", "Label2", "Label3", "Label4"]
+                        },
+                        {
+                            "Channel": "opacityTexture",
+                            "Url": "/assets/valuta/materials/labels/Landfill.png",
                             "Layers": ["Label1", "Label2", "Label3", "Label4"]
                         }
                     ],
@@ -305,7 +341,12 @@
                     "Material": [
                         {
                             "Channel": "albedoTexture",
-                            "Url": "/assets/materials/label-cans.png",
+                            "Url": "/assets/valuta/materials/labels/Organics.png",
+                            "Layers": ["Label1", "Label2", "Label3", "Label4"]
+                        },
+                        {
+                            "Channel": "opacityTexture",
+                            "Url": "/assets/valuta/materials/labels/Organics.png",
                             "Layers": ["Label1", "Label2", "Label3", "Label4"]
                         }
                     ],
@@ -320,7 +361,12 @@
                     "Material": [
                         {
                             "Channel": "albedoTexture",
-                            "Url": "/assets/materials/label-cans.png",
+                            "Url": "/assets/valuta/materials/labels/Paper.png",
+                            "Layers": ["Label1", "Label2", "Label3", "Label4"]
+                        },
+                        {
+                            "Channel": "opacityTexture",
+                            "Url": "/assets/valuta/materials/labels/Paper.png",
                             "Layers": ["Label1", "Label2", "Label3", "Label4"]
                         }
                     ],
@@ -335,7 +381,12 @@
                     "Material": [
                         {
                             "Channel": "albedoTexture",
-                            "Url": "/assets/materials/label-cans.png",
+                            "Url": "/assets/valuta/materials/labels/Plastic.png",
+                            "Layers": ["Label1", "Label2", "Label3", "Label4"]
+                        },
+                        {
+                            "Channel": "opacityTexture",
+                            "Url": "/assets/valuta/materials/labels/Plastic.png",
                             "Layers": ["Label1", "Label2", "Label3", "Label4"]
                         }
                     ],
@@ -350,7 +401,12 @@
                     "Material": [
                         {
                             "Channel": "albedoTexture",
-                            "Url": "/assets/materials/label-cans.png",
+                            "Url": "/assets/valuta/materials/labels/RecyclingArrows.png",
+                            "Layers": ["Label1", "Label2", "Label3", "Label4"]
+                        },
+                        {
+                            "Channel": "opacityTexture",
+                            "Url": "/assets/valuta/materials/labels/RecyclingArrows.png",
                             "Layers": ["Label1", "Label2", "Label3", "Label4"]
                         }
                     ],
@@ -365,7 +421,12 @@
                     "Material": [
                         {
                             "Channel": "albedoTexture",
-                            "Url": "/assets/materials/label-cans.png",
+                            "Url": "/assets/valuta/materials/labels/Recycling.png",
+                            "Layers": ["Label1", "Label2", "Label3", "Label4"]
+                        },
+                        {
+                            "Channel": "opacityTexture",
+                            "Url": "/assets/valuta/materials/labels/Recycling.png",
                             "Layers": ["Label1", "Label2", "Label3", "Label4"]
                         }
                     ],
@@ -380,7 +441,12 @@
                     "Material": [
                         {
                             "Channel": "albedoTexture",
-                            "Url": "/assets/materials/label-cans.png",
+                            "Url": "/assets/valuta/materials/labels/Waste.png",
+                            "Layers": ["Label1", "Label2", "Label3", "Label4"]
+                        },
+                        {
+                            "Channel": "opacityTexture",
+                            "Url": "/assets/valuta/materials/labels/Waste.png",
                             "Layers": ["Label1", "Label2", "Label3", "Label4"]
                         }
                     ],
@@ -395,7 +461,12 @@
                     "Material": [
                         {
                             "Channel": "albedoTexture",
-                            "Url": "/assets/materials/label-cans.png",
+                            "Url": "/assets/valuta/materials/labels/NoLabel.png",
+                            "Layers": ["Label1", "Label2", "Label3", "Label4"]
+                        },
+                        {
+                            "Channel": "opacityTexture",
+                            "Url": "/assets/valuta/materials/labels/NoLabel.png",
                             "Layers": ["Label1", "Label2", "Label3", "Label4"]
                         }
                     ],
@@ -470,6 +541,7 @@
             "Id": 5,
             "Code": "signage",
             "Label": "Signage",
+            "Layers": ["Signage1", "Signage2", "Signage3", "Signage4"],
             "Description": "Please select signage and finish color for each VALUTA unit.",
             "Thumbnail": "https://magnuson.blob.core.windows.net/sitedocs/configurator/valuta/main-signage.jpg",
             "Options": [
@@ -485,33 +557,27 @@
                     "Id": 2,
                     "Code": "signage-mg",
                     "Label": "MG Signage",
-                    "Thumbnail": "https://magnuson.blob.core.windows.net/sitedocs/configurator/valuta/valuta-signage-custom.jpg",
+                    "Layer": "Signage",
+                    "Thumbnail": "https://magnuson.blob.core.windows.net/sitedocs/configurator/valuta/valuta-signage-mg.jpg",
                     "PartNumber": "MG",
-                    "Material": [
-                        {
-                            "albedoTexture": true,
-                        }
-                    ],
+                    
                     "Active": false,
                 },
                 {
                     "Id": 3,
                     "Code": "sinage-customer",
                     "Label": "Customer Signage",
-                    "Thumbnail": "https://magnuson.blob.core.windows.net/sitedocs/configurator/valuta/valuta-signage-mg.jpg",
+                    "Layer": "Signage",
+                    "Thumbnail": "https://magnuson.blob.core.windows.net/sitedocs/configurator/valuta/valuta-signage-custom.jpg",
                     "PartNumber": "CS",
-                    "Material": [
-                        {
-                            "albedoTexture": true,
-                        }
-                    ],
+                    
                     "Active": false,
                 }
             ],
         }, //Signage
         {
             "Id": 5,
-            "Code": "signage-extra", 
+            "Code": "signage-selection", 
             "Thumbnail": "https://magnuson.blob.core.windows.net/sitedocs/configurator/slope/slope-label-recycling.jpg",
             "Options": [
                 {
@@ -522,7 +588,19 @@
                     "PartNumber": "SC",
                     "Material": [
                         {
-                            "albedoTexture": true,
+                            "Channel": "albedoTexture",
+                            "Url": "/assets/valuta/materials/signages/Cans.png",
+                            "Layers": ["Signage1Label", "Signage2Label", "Signage3Label", "Signage4Label"]
+                        },
+                        {
+                            "Channel": "opacityTexture",
+                            "Url": "/assets/valuta/materials/signages/Cans.png",
+                            "Layers": ["Signage1Label", "Signage2Label", "Signage3Label", "Signage4Label"]
+                        },
+                        {
+                            "Channel": "emissiveColor",
+                            "Url": "",
+                            "Layers": ["Signage1Label", "Signage2Label", "Signage3Label", "Signage4Label"]
                         }
                     ],
                     "Active": true,
@@ -535,7 +613,19 @@
                     "PartNumber": "SCP",
                     "Material": [
                         {
-                            "albedoTexture": true,
+                            "Channel": "albedoTexture",
+                            "Url": "/assets/valuta/materials/signages/Compost.png",
+                            "Layers": ["Signage1Label", "Signage2Label", "Signage3Label", "Signage4Label"]
+                        },
+                        {
+                            "Channel": "opacityTexture",
+                            "Url": "/assets/valuta/materials/signages/Compost.png",
+                            "Layers": ["Signage1Label", "Signage2Label", "Signage3Label", "Signage4Label"]
+                        },
+                        {
+                            "Channel": "emissiveColor",
+                            "Url": "",
+                            "Layers": ["Signage1Label", "Signage2Label", "Signage3Label", "Signage4Label"]
                         }
                     ],
                     "Active": false,
@@ -548,7 +638,19 @@
                     "PartNumber": "SG",
                     "Material": [
                         {
-                            "albedoTexture": true,
+                            "Channel": "albedoTexture",
+                            "Url": "/assets/valuta/materials/signages/Glass.png",
+                            "Layers": ["Signage1Label", "Signage2Label", "Signage3Label", "Signage4Label"]
+                        },
+                        {
+                            "Channel": "opacityTexture",
+                            "Url": "/assets/valuta/materials/signages/Glass.png",
+                            "Layers": ["Signage1Label", "Signage2Label", "Signage3Label", "Signage4Label"]
+                        },
+                        {
+                            "Channel": "emissiveColor",
+                            "Url": "",
+                            "Layers": ["Signage1Label", "Signage2Label", "Signage3Label", "Signage4Label"]
                         }
                     ],
                     "Active": false,
@@ -561,7 +663,19 @@
                     "PartNumber": "SL",
                     "Material": [
                         {
-                            "albedoTexture": true,
+                            "Channel": "albedoTexture",
+                            "Url": "/assets/valuta/materials/signages/Landfill.png",
+                            "Layers": ["Signage1Label", "Signage2Label", "Signage3Label", "Signage4Label"]
+                        },
+                        {
+                            "Channel": "opacityTexture",
+                            "Url": "/assets/valuta/materials/signages/Landfill.png",
+                            "Layers": ["Signage1Label", "Signage2Label", "Signage3Label", "Signage4Label"]
+                        },
+                        {
+                            "Channel": "emissiveColor",
+                            "Url": "",
+                            "Layers": ["Signage1Label", "Signage2Label", "Signage3Label", "Signage4Label"]
                         }
                     ],
                     "Active": false,
@@ -574,7 +688,19 @@
                     "PartNumber": "SO",
                     "Material": [
                         {
-                            "albedoTexture": true,
+                            "Channel": "albedoTexture",
+                            "Url": "/assets/valuta/materials/signages/Organics.png",
+                            "Layers": ["Signage1Label", "Signage2Label", "Signage3Label", "Signage4Label"]
+                        },
+                        {
+                            "Channel": "opacityTexture",
+                            "Url": "/assets/valuta/materials/signages/Organics.png",
+                            "Layers": ["Signage1Label", "Signage2Label", "Signage3Label", "Signage4Label"]
+                        },
+                        {
+                            "Channel": "emissiveColor",
+                            "Url": "",
+                            "Layers": ["Signage1Label", "Signage2Label", "Signage3Label", "Signage4Label"]
                         }
                     ],
                     "Active": false,
@@ -587,7 +713,19 @@
                     "PartNumber": "SP",
                     "Material": [
                         {
-                            "albedoTexture": true,
+                            "Channel": "albedoTexture",
+                            "Url": "/assets/valuta/materials/signages/Paper.png",
+                            "Layers": ["Signage1Label", "Signage2Label", "Signage3Label", "Signage4Label"]
+                        },
+                        {
+                            "Channel": "opacityTexture",
+                            "Url": "/assets/valuta/materials/signages/Paper.png",
+                            "Layers": ["Signage1Label", "Signage2Label", "Signage3Label", "Signage4Label"]
+                        },
+                        {
+                            "Channel": "emissiveColor",
+                            "Url": "",
+                            "Layers": ["Signage1Label", "Signage2Label", "Signage3Label", "Signage4Label"]
                         }
                     ],
                     "Active": false,
@@ -600,7 +738,19 @@
                     "PartNumber": "SPL",
                     "Material": [
                         {
-                            "albedoTexture": true,
+                            "Channel": "albedoTexture",
+                            "Url": "/assets/valuta/materials/signages/Plastic.png",
+                            "Layers": ["Signage1Label", "Signage2Label", "Signage3Label", "Signage4Label"]
+                        },
+                        {
+                            "Channel": "opacityTexture",
+                            "Url": "/assets/valuta/materials/signages/Plastic.png",
+                            "Layers": ["Signage1Label", "Signage2Label", "Signage3Label", "Signage4Label"]
+                        },
+                        {
+                            "Channel": "emissiveColor",
+                            "Url": "",
+                            "Layers": ["Signage1Label", "Signage2Label", "Signage3Label", "Signage4Label"]
                         }
                     ],
                     "Active": false,
@@ -613,7 +763,19 @@
                     "PartNumber": "SR",
                     "Material": [
                         {
-                            "albedoTexture": true,
+                            "Channel": "albedoTexture",
+                            "Url": "/assets/valuta/materials/signages/Recycling.png",
+                            "Layers": ["Signage1Label", "Signage2Label", "Signage3Label", "Signage4Label"]
+                        },
+                        {
+                            "Channel": "opacityTexture",
+                            "Url": "/assets/valuta/materials/signages/Recycling.png",
+                            "Layers": ["Signage1Label", "Signage2Label", "Signage3Label", "Signage4Label"]
+                        },
+                        {
+                            "Channel": "emissiveColor",
+                            "Url": "",
+                            "Layers": ["Signage1Label", "Signage2Label", "Signage3Label", "Signage4Label"]
                         }
                     ],
                     "Active": false,
@@ -626,7 +788,19 @@
                     "PartNumber": "SW",
                     "Material": [
                         {
-                            "albedoTexture": true,
+                            "Channel": "albedoTexture",
+                            "Url": "/assets/valuta/materials/signages/Waste.png",
+                            "Layers": ["Signage1Label", "Signage2Label", "Signage3Label", "Signage4Label"]
+                        },
+                        {
+                            "Channel": "opacityTexture",
+                            "Url": "/assets/valuta/materials/signages/Waste.png",
+                            "Layers": ["Signage1Label", "Signage2Label", "Signage3Label", "Signage4Label"]
+                        },
+                        {
+                            "Channel": "emissiveColor",
+                            "Url": "",
+                            "Layers": ["Signage1Label", "Signage2Label", "Signage3Label", "Signage4Label"]
                         }
                     ],
                     "Active": false,
@@ -637,6 +811,7 @@
             "Id": 5,
             "Code": "label-extra-color",
             "Label": "",
+            "Layers": ["Signage1", "Signage2", "Signage3", "Signage4"],
             "Thumbnail": "http://files.magnusongroup.com/sitedocs/configurator/Umea-None.jpg",
             "Options": [
                 {
@@ -645,7 +820,7 @@
                     "Label": "Black Foil",
                     "Thumbnail": "https://magnuson.blob.core.windows.net/sitedocs/configurator/valuta/color-black-vinyl.jpg",
                     "PartNumber": "BF",
-                    "ColorCode": "#080808",
+                    "ColorCode": "#000000",
                     "Active": true,
                 },
                 {
@@ -654,7 +829,7 @@
                     "Label": "Cactus Green Foil",
                     "Thumbnail": "https://magnuson.blob.core.windows.net/sitedocs/configurator/valuta/color-cactus-vinyl.jpg",
                     "PartNumber": "CGF",
-                    "ColorCode": "#F5F5F5",
+                    "ColorCode": "#004C10",
                     "Active": false,
                 },
                 {
@@ -663,7 +838,7 @@
                     "Label": "Sunflower Foil",
                     "Thumbnail": "https://magnuson.blob.core.windows.net/sitedocs/configurator/valuta/color-sunflower-vinyl.jpg",
                     "PartNumber": "SF",
-                    "ColorCode": "#F5F5F5",
+                    "ColorCode": "#CEAA00",
                     "Active": false,
                 },
                 {
@@ -672,7 +847,7 @@
                     "Label": "Vivid Blue Foil",
                     "Thumbnail": "https://magnuson.blob.core.windows.net/sitedocs/configurator/valuta/color-vivid-blue-vinyl.jpg",
                     "PartNumber": "VBF",
-                    "ColorCode": "#F5F5F5",
+                    "ColorCode": "#000F24",
                     "Active": false,
                 }
             ],
@@ -709,27 +884,27 @@
 valutaModels = {
     "Path": "assets/valuta/models/",
     "DefaultLayers": [
-        "1_Can",
-        "1_Label1",
+        "1_Body",
+        "1_Label3",
         "1_patas",
-        "1_Top3",
+        "1_TopWaste",
         "1_Waste1",
-        "2_Can",
+        "2_Body",
         "2_Label1",
         "2_Patas",
-        "2_Top1",
-        "3_Can",
-        "3_Label1",
+        "2_TopWaste",
+        "3_Body",
+        "3_Label3",
         "3_Patas",
-        "3_Top1",
+        "3_TopWaste",
         "4_Body",
-        "4_Label1",
+        "4_Label3",
         "4_Patas",
-        "4_Top1",
-        "5_Can",
-        "5_Label4",
+        "4_TopWaste",
+        "5_Body",
+        "5_Label3",
         "5_Patas",
-        "5_Top1"
+        "5_TopWaste"
     ],
     "ModelsList":
         [
@@ -742,7 +917,7 @@ valutaModels = {
                         "Body",
                         "Label1",
                         "Patas",
-                        "Top1",
+                        "TopWaste",
                     ],
                 "Width": 18,
             },
@@ -755,7 +930,7 @@ valutaModels = {
                         "Body",
                         "Label1",
                         "Patas",
-                        "Top1",
+                        "TopWaste",
                     ],
                 "Width": 18,
             },
@@ -768,7 +943,7 @@ valutaModels = {
                         "Body",
                         "Label1",
                         "Patas",
-                        "Top1",
+                        "TopWaste",
                     ],
                 "Width": 18,
             },
@@ -781,7 +956,7 @@ valutaModels = {
                         "Body",
                         "Label1",
                         "Patas",
-                        "Top1",
+                        "TopWaste",
                     ],
                 "Width": 18,
             },
@@ -794,7 +969,7 @@ valutaModels = {
                         "Body",
                         "Label1",
                         "Patas",
-                        "Top1",
+                        "TopWaste",
                     ],
                 "Width": 18,
             },

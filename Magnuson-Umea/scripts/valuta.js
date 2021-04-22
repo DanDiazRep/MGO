@@ -1,8 +1,4 @@
-﻿
-//GET DATA
-var InitialData = valutaJSON;
-
-//Menu building variables
+﻿//Menu building variables
 var canvas = document.getElementById('magnusonCanvas');
 var container = document.getElementById('magnusonRowContainer');
 
@@ -19,56 +15,85 @@ var spotLight2;
 var nFeature = 0;
 var shadowGenerator;
 var groundShadowGenerator;
-var nReceptacles;
+var nReceptacles = 1;
 var selector = 0;
+var initialXValues = [];
 
 var valuta = [];
  
-var sModel = function (code, model3D, width, isVisible = false) {
+var sModel = function (code, model3D, width, depth,isVisible = false) {
     this.code = code;
     this.model3D = model3D;
-    this.width = width;    
+    this.width = width;
+    this.depth = depth;
     this.model3D.setEnabled(isVisible);
 }
 
+//Prototypes
 sModel.prototype.visibility = function (visibility) {
     this.model3D.setEnabled(visibility);
 }
 
-sModel.prototype.changeColor = function (selectedLayers, colorCode) {
-    
+sModel.prototype.changeColor = function (selectedLayers, colorCode) {    
     this.model3D._children.map(function (layer) {
-        selectedLayers.map(function (selectedLayer) {
-            if (layer.id.includes(selectedLayer)) {
-                layer._children[0]._material._albedoColor = new BABYLON.Color3.FromHexString(colorCode);
-            }
-        });
-        
+        layer._children.map(function (child) {
+            selectedLayers.map(function (selectedLayer) {       
+                if (child.id.includes(selectedLayer) && !(child.id.includes("Signage") && child.id.includes("Label"))) {
+                    child._material._albedoColor = new BABYLON.Color3.FromHexString(colorCode);
+                }
+            }); 
+        });        
     });
 }
 
 sModel.prototype.changeMaterial = function (materialChannel, selectedLayers, Url) {
-
     this.model3D._children.map(function (layer) {
         selectedLayers.map(function (selectedLayer) {
-            if (layer.id.includes(selectedLayer)) {
-                if (layer._children[0]._material[materialChannel]) {
-                    layer._children[0]._material[materialChannel].updateURL(Url);
-                    layer._children[0]._material[materialChannel].uScale = -1;                    
+            layer._children.map(function (child) {
+                if (child.id.includes(selectedLayer)) {
+                    if (materialChannel == "emissiveColor") {
+                        child._material[materialChannel] = new BABYLON.Color3.FromHexString("#FFFFFF");
+                    } 
+                    else if (child._material[materialChannel]) {
+                        child._material[materialChannel].updateURL(Url);
+                    }
+                    else {
+                        child._material[materialChannel] = new BABYLON.Texture(Url, scene);
+                        child._material[materialChannel].vScale = -1;
+                    }
+                                       
                 }
-                else {
-                    layer._children[0]._material[materialChannel] = new BABYLON.Texture(Url, scene);
-                    layer._children[0]._material[materialChannel].uScale = -1;
-                    layer._children[0]._material[materialChannel].vScale = -1;
-                }
-            }
+            });
         });
+        layer._children[0]._material.transparencyMode = 2;
+        layer._children[0]._material.backFaceCulling = false;
+    });    
+}
 
+sModel.prototype.changeGeometry = function (selectedLayer, visibility) {
+    this.model3D._children.map(function (layer) {
+        layer._children.map(function (child) {
+            if (child.id.includes(selectedLayer)) {
+                child.isVisible = visibility;                
+            }            
+        });
     });
 }
-    
 
-//Prototypes
+sModel.prototype.move = function (direction, distance) {
+    this.model3D.parent.translate(BABYLON.Axis[direction], distance, BABYLON.Space.WORLD);
+}
+
+sModel.prototype.rotate = function (angle) {
+    this.model3D.parent.rotate(new BABYLON.Vector3(0, 1, 0), angle, BABYLON.Space.LOCAL);    
+}
+
+sModel.prototype.setPosition = function (direction, distance) {
+    this.model3D.parent._position[direction] = distance;
+}
+
+
+
 BABYLON.ArcRotateCamera.prototype.spinTo = function (whichprop, targetval, speed) {
     var ease = new BABYLON.CubicEase();
     ease.setEasingMode(BABYLON.EasingFunction.EASINGMODE_EASEINOUT);
@@ -80,16 +105,16 @@ var createScene = function () {
     var scene = new BABYLON.Scene(engine);
     var camera = new BABYLON.ArcRotateCamera("Camera", (0.4 * Math.PI), (6 * Math.PI / 16), 60, new BABYLON.Vector3(0, 20, 0), scene);
     var lightH = new BABYLON.HemisphericLight("HemiLight", new BABYLON.Vector3(0, 1, 0.2), scene);
-    lightH.intensity = 1;
+    lightH.intensity = 2;
     //lightH.diffuse = BABYLON.Color3.FromHexString("#C9C9C9");
     //lightH.groundColor = BABYLON.Color3.FromHexString("#4A4A4A");
     spotLight = new BABYLON.DirectionalLight("light1", new BABYLON.Vector3(-0.43, -0.85, -0.3), scene);
-    spotLight.intensity = 10;
-    spotLight.position.y = 150;
+    spotLight.intensity = 1;
+    spotLight.position.y = 10;
 
     spotLight2 = new BABYLON.DirectionalLight("light2", new BABYLON.Vector3(-0.43, -0.85, -0.3), scene);
     spotLight2.intensity = 0;
-    spotLight2.position.y = 150;
+    spotLight2.position.y = 10;
 
     //Shadow casting for desktop version only
     if (detectmob()) {
@@ -119,9 +144,9 @@ var createScene = function () {
     /*************
     **  Models
     **************/
-    BABYLON.SceneLoader.Append(valutaModels.Path, "1.glb", scene, function (valuta3D) {
+    BABYLON.SceneLoader.Append(valutaModels.Path, "valuta.glb", scene, function (valuta3D) {
 
-        //Offset
+        //Hardcoded Offset
         valuta3D.rootNodes[6]._children[0]._children[4].position.x = 0;
         valuta3D.rootNodes[6]._children[0]._children[4].position.y = 19;
 
@@ -132,27 +157,48 @@ var createScene = function () {
                     mesh._children[0].actionManager.registerAction(new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnPointerOverTrigger, function (env) {
                     }, false));
                     //Show me the default
-                    mesh._children[0].isVisible = valutaModels.DefaultLayers.includes(mesh.id);
+                    mesh._children.map(function (child) { 
+                        child.isVisible = valutaModels.DefaultLayers.includes(child._material.id);                        
+                    });
                 }
-            });            
+            }); 
         });
 
-        for (var i = 0; i < 4; i++) {
+        for (var i = 0; i < 4; i++) { //4 different positions
             valuta[i] = new Array();
+            var valutaNames = [{ "Name": "VA1809L-JR", "Ref": 4, "Width": 9, "Depth": 18 }, { "Name": "VA1809L", "Ref": 2, "Width": 9, "Depth": 18 }, { "Name": "VA1814L", "Ref": 3, "Width": 14, "Depth": 18 }, { "Name": "VA18SCL", "Ref": 1, "Width": 18, "Depth": 18 }, { "Name": "VA1818L", "Ref": 0, "Width": 18, "Depth": 18 }];
+            valutaNames.map(function (receptacle, nName) {
+                var pivot = new BABYLON.TransformNode("Root" + i);
+                receptacle[nName] = valuta3D.rootNodes[6]._children[0]._children[receptacle.Ref].clone(receptacle.Name + i);
+                receptacle[nName].parent = pivot;
+                receptacle[nName]._children.map(function (nodes) {
+                    if (nodes.name.includes("Label") || nodes.name.includes("Signage"))
+                        nodes._scaling.x *= -1;
+                });
+                valuta[i][nName] = new sModel(receptacle.Name, receptacle[nName], receptacle.Width, receptacle.Depth);
+            });
 
-            valuta[i][0] = new sModel("VA1809L-JR", valuta3D.rootNodes[6]._children[0]._children[4].clone("va1809ljr" + i), 9);
-            valuta[i][1] = new sModel("VA1809L", valuta3D.rootNodes[6]._children[0]._children[2].clone("va1809l" + i), 9);
-            valuta[i][2] = new sModel("VA1814L", valuta3D.rootNodes[6]._children[0]._children[3].clone("va1814l" + i), 14);
-            valuta[i][3] = new sModel("VA18SCL", valuta3D.rootNodes[6]._children[0]._children[1].clone("va18scl" + i), 18);
-            valuta[i][4] = new sModel("VA1818L", valuta3D.rootNodes[6]._children[0]._children[0].clone("va1818l" + i), 18);
-
-            //valuta3D.rootNodes[6]._children[0]._children[4].position.x = 0;
-
-            for (var j = 0; j < 5; j++) {
+            for (var j = 0; j < 5; j++) { //5 different receptacles
                 addShadows(valuta[i][j]);
+                valuta[i][j].model3D._children.map(function (mesh, nMesh) {
+                    mesh._children.map(function (child) {                        
+                        child._material = child._material.clone(child._material.id + "_pos" + i + "_rec" + j);
+                        if (child.id.includes("1_Signage")) {
+                            console.log(child.id);
+                        }
+                    });
+                });
             }           
         }
+
+        for (var i = 0; i < 5; i++) {
+            initialXValues[i] = valuta[0][i].model3D._position.x;
+        }
+        
+
+        //Initial unit
         valuta[0][0].visibility(true);
+        //Core model is disabled
         valuta3D.rootNodes[6].setEnabled(false);
     },
         function (evt) {
@@ -194,7 +240,6 @@ var createScene = function () {
     scene.environmentIntensity = 0.25;
 
     window.addEventListener("resize", function () { engine.resize(); });
-
     return scene;
 }
 // call the createScene function
@@ -234,155 +279,35 @@ function detectmob() {
     }
 }
 
-//init
-//optionsCreation("0,1");
 
-/*
-function changeMaterial(selectedFeature, selectedOption) {
-    slopeData.FeaturesData.map(function (feature) {
-        if (feature.Code == selectedFeature)
-            feature.Options.map(function (option) {
-                option.Active = false;
-                if (selectedOption == option.Code) {
-                    option.Active = true;
-                    if (option.hasOwnProperty('Material')) {
-                        modelList[index]._children[0]._children.map(function (meshes) {
-                            if (feature.Layers.includes(meshes._children[0].name.split(".")[3])) {
-                                if (option.Material[0].AlbedoTexture) {
-
-                                    if (feature.Code == "label") {
-                                        editSummary(feature.Code, option.Label, option.Thumbnail, feature.Layers[0]);
-
-                                        meshes._children[0].material._albedoTexture.updateURL("/assets/materials/" + option.Code + "_Base_Color.png");
-                                        if (option.Code == "no-label") {
-                                            if (feature.Layers[0] == "Label_C") {
-                                                $(`#label-colorCText${index + 1}`).css("display", "none");
-                                                $(`#label-colorCImage${index + 1}`).css("display", "none");
-                                            }
-                                            else if (feature.Layers[0] == "Label_R") {
-                                                $(`#label-colorRText${index + 1}`).css("display", "none");
-                                                $(`#label-colorRImage${index + 1}`).css("display", "none");
-                                            }
-                                            else if (feature.Layers[0] == "Label_L") {
-                                                $(`#label-colorLText${index + 1}`).css("display", "none");
-                                                $(`#label-colorLImage${index + 1}`).css("display", "none");
-                                            }
-                                        }
-                                        else {
-                                            if (feature.Layers[0] == "Label_C") {
-                                                $(`#label-colorCText${index + 1}`).css("display", "inline-block");
-                                                $(`#label-colorCImage${index + 1}`).css("display", "inline-block");
-                                            }
-                                            else if (feature.Layers[0] == "Label_R") {
-                                                $(`#label-colorRText${index + 1}`).css("display", "inline-block");
-                                                $(`#label-colorRImage${index + 1}`).css("display", "inline-block");
-                                            }
-                                            else if (feature.Layers[0] == "Label_L") {
-                                                $(`#label-colorLText${index + 1}`).css("display", "inline-block");
-                                                $(`#label-colorLImage${index + 1}`).css("display", "inline-block");
-                                            }
-                                        }
-                                    }
-                                    else {
-                                        editSummary(feature.Code, option.Label, option.Thumbnail);
-                                        meshes._children[0].material._albedoColor = new BABYLON.Color3.FromHexString("#FFFFFF");
-                                        meshes._children[0].material._albedoTexture.updateURL("/assets/materials/" + meshes._children[0].name.split(".")[3] + "_" + option.Code + "_Base_Color.png", scene);
-                                        if (option.Code.includes("polishedSS")) {
-                                            meshes._children[0].material.metallic = 0.8;
-                                            meshes._children[0].material.roughness = 0.1;
-                                            meshes._children[0].material.bumpTexture.level = 0.1;
-                                        }
-                                        else if (option.Code.includes("brushedSS")) {
-                                            meshes._children[0].material.metallic = 0.6;
-                                            meshes._children[0].material.roughness = 0.15;
-                                            meshes._children[0].material.bumpTexture.level = 0.5;
-                                        }
-                                        else {
-                                            meshes._children[0].material.metallic = 0.4;
-                                            meshes._children[0].material.roughness = 0.13;
-                                            meshes._children[0].material.bumpTexture.level = 1;
-                                        }
-
-                                    }
-                                }
-                                if (option.Material[0].NormalTexture == true) {
-                                    meshes._children[0].material._bumpTexture.updateURL("/assets/materials/" + meshes._children[0].name.split(".")[3] + "_" + option.Code + "_Normal.png");
-
-                                }
-                                else if (option.Material[0].NormalTexture == false) {
-                                    meshes._children[0].material._bumpTexture = null;
-                                }
-                            }
-                        });
-                    }
-                    return;
-                }
-            });
-    });
-}
-*/
-
-
-function changeQuantity(units) {
-    nReceptacles = units;
-    if (units < 2) {
-        index = units - 1;
-    }
-    scene.activeCamera.target.x = (units - 1) * -receptacleWidth / 2;
-    pdfCamera.target.x = (units - 1) * -receptacleWidth / 2;
-    for (var model = 0; model < modelList.length; model++) {
-        if (model < units) {
-            modelList[model].setEnabled(true);
-            $(`.u${(model + 1)}`).css("display", "unset");
-
-        }
-        else {
-            modelList[model].setEnabled(false);
-            $(`.u${(model + 1)}`).css("display", "none");
-
-
-        }
-    }
-    index = 0;
-}
-
-
-function editSummary(featureSelected, optionLabel, optionThumbnail, optionLayers) {
-
+function editSummary(featureSelected, optionLabel, optionThumbnail) {
     switch (featureSelected) {
-        case ("opening-single"): {
-            $(`#openingImage${(index + 1)}`).attr("src", optionThumbnail);
-            $(`#openingText${(index + 1)}`).text(optionLabel);
-        }
-            break;
-        case ("opening-double"): {
-            $(`#openingImage${(index + 1)}`).attr("src", optionThumbnail);
-            $(`#openingText${(index + 1)}`).text(optionLabel);
-
-            if (optionLabel.includes("Recycling")) {
-                $(`#openingText${(index + 1)}`).html(optionLabel.split("/")[0] + "/" + '<br>' + optionLabel.split("/")[1]);
+        case ("opening"): {
+            var currentModel = $(`#bodyText${(selector + 1)}`)[0].innerHTML;
+            if (currentModel == "VA1814L") {
+                $(`#openingImage${(selector + 1)}`).attr("src", optionThumbnail.replace("1809", "32"));
             }
-        }
-            break;
-        case "label":
-            {
-                $(`#${optionLayers}Image${(index + 1)}`).attr("src", optionThumbnail);
-                $(`#${optionLayers}Text${(index + 1)}`).text(optionLabel);
+            else if (currentModel == "VA1818L") {
+                $(`#openingImage${(selector + 1)}`).attr("src", optionThumbnail.replace("1809", "1818"));  
             }
+            else if (currentModel == "VA18SCL") {
+                $(`#openingImage${(selector + 1)}`).attr("src", optionThumbnail.replace("1809", "1818scl"));                
+            }
+            else {
+                $(`#openingImage${(selector + 1)}`).attr("src", optionThumbnail);
+            }
+            $(`#openingText${(selector + 1)}`).text(optionLabel);
+        }
             break;
         case "label-color":
             {
-                $(`#label-colorCImage${(index + 1)}`).attr("src", optionThumbnail);
-                $(`#label-colorCText${(index + 1)}`).text(optionLabel);
-                $(`#label-colorRImage${(index + 1)}`).attr("src", optionThumbnail);
-                $(`#label-colorRText${(index + 1)}`).text(optionLabel);
-                $(`#label-colorLImage${(index + 1)}`).attr("src", optionThumbnail);
-                $(`#label-colorLText${(index + 1)}`).text(optionLabel);
+                $(`#label-colorImage${(selector + 1)}`).attr("src", optionThumbnail);
+                $(`#label-colorText${(selector + 1)}`).text(optionLabel);                
             }
             break;
         default: {
-            $(`#${featureSelected}Image${(index + 1)}`).attr("src", optionThumbnail);
-            $(`#${featureSelected}Text${(index + 1)}`).text(optionLabel);
+            $(`#${featureSelected}Image${(selector + 1)}`).attr("src", optionThumbnail);
+            $(`#${featureSelected}Text${(selector + 1)}`).text(optionLabel);
         }
     }
 }
@@ -456,7 +381,7 @@ function createImageFunction() {
                 .image(watermark.image.upperLeft(1))
                 .then(function (img) {
                     var link = document.createElement('a');
-                    link.download = "SLOPE.png";
+                    link.download = "VALUTA.png";
                     link.href = img.src;
                     link.click();
                 });
@@ -468,7 +393,7 @@ function createImageFunction() {
                 .image(watermark.image.upperLeft(1))
                 .then(function (img) {
                     var link = document.createElement('a');
-                    link.download = "SLOPE.png";
+                    link.download = "VALUTA.png";
                     link.href = img.src;
                     link.click();
                 });
@@ -479,7 +404,7 @@ function createImageFunction() {
 
 }
 
-//SLIDER AND BACKGROUDN STUFF
+//SLIDER AND BACKGROUND STUFF
 function toggleFunction() {
     HDRhelper.ground.isVisible = !HDRhelper.ground.isVisible;
 }

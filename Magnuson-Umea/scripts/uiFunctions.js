@@ -1,5 +1,5 @@
 ﻿
-//Features list building
+//Feature List Building structure
 var $featuresList = $("<div>", { "class": "list-group", "id": "featuresList" });
 $("#featuresChoice").append($featuresList);
 var $featuresHeader = $("<h1>", {
@@ -103,14 +103,13 @@ function optionsCreation(nFeatures, selectedId) {
                                 "class": "receptacleSelector",
                                 "id": "replicatedOption" + nReps,
                                 "text": "Unit " + (nReps + 1),
-                                "onClick": `receptacleSelectorFunction("${(nReps + 1)}", "${"Label_C"}")`
+                                "onClick": `receptacleSelectorFunction("${(nReps + 1)}", "${feature.Code}")`
                             });
                             $replicateCol.append($replicateElement);
                         }
-
                     }
-                    $(`#replicatedOptionL${(selector)}`).css("background-color", "rgb(150,150,150)");
-                    //receptacleSelectorFunction(selector + 1, "Label_L");
+                    $(`#replicatedOption${(selector)}`).css("background-color", "rgb(150,150,150)");
+                    receptacleSelectorFunction(selector + 1, "label");
                 }
                 else if (nReceptacles > 1) {
                     for (var nReps = 0; nReps < nReceptacles; nReps++) {
@@ -121,12 +120,13 @@ function optionsCreation(nFeatures, selectedId) {
                             "class": "receptacleSelector",
                             "id": "replicatedOption" + nReps,
                             "text": "Unit " + (nReps + 1),
-                            "onClick": `receptacleSelectorFunction("${(nReps + 1)}", "${"Label_C"}")`
+                            "onClick": `receptacleSelectorFunction("${(nReps + 1)}", "${feature.Code}")`
                         });
                         $replicateCol.append($replicateElement);
                     }
-                    $("#replicatedOption" + (selector)).css("background-color", "rgb(150,150,150)");
+                    
                 }
+                $(`#replicatedOption${(selector)}`).css("background-color", "rgb(150,150,150)");                
             }
             isUnique = false;
             //Generate description based on the first feature
@@ -165,7 +165,8 @@ function optionsCreation(nFeatures, selectedId) {
 
             }
             else {
-                feature.Options.map(function (option) {
+                var currentModel = $(`#bodyText${(selector + 1)}`)[0].innerHTML;
+                feature.Options.map(function (option) {                    
                     //Generate the option 
                     var $optionClass = $("<div class=\"option\">");
                     $optionsContainer.append($optionClass);
@@ -188,15 +189,37 @@ function optionsCreation(nFeatures, selectedId) {
                     else if (feature.Code == "body") {
                         $featureOptions.attr("onClick", `changeModel("${option.Code}")`);
                     }
+                    else if (feature.Code.includes("rotation")) {
+                        $featureOptions.attr("onClick", `rotateModel("${option.Code}")`);
+                    }
                     else {
                         $featureOptions.attr("onClick", `changeGeometry("${feature.Code}", "${option.Code}")`);
                     }
                     $imageClass.append($featureOptions);
-
-                    var $featureImage = $("<img>", {
-                        "src": option.Thumbnail,
-                        "border": "0", "alt": "Slope", "class": "fade-img",
-                    });
+                    if (currentModel == "VA1814L") {
+                        var $featureImage = $("<img>", {
+                            "src": option.Thumbnail.replace("1809", "32"),
+                            "border": "0", "alt": "Slope", "class": "fade-img",
+                        });
+                    }
+                    else if (currentModel == "VA1818L") {
+                        var $featureImage = $("<img>", {
+                            "src": option.Thumbnail.replace("1809", "1818"),
+                            "border": "0", "alt": "Slope", "class": "fade-img",
+                        });
+                    }
+                    else if (currentModel == "VA18SCL") {
+                        var $featureImage = $("<img>", {
+                            "src": option.Thumbnail.replace("1809", "1818scl"),
+                            "border": "0", "alt": "Slope", "class": "fade-img",
+                        });
+                    }
+                    else {
+                        var $featureImage = $("<img>", {
+                            "src": option.Thumbnail,
+                            "border": "0", "alt": "Slope", "class": "fade-img",
+                        });
+                    }
                     $featureOptions.append($featureImage);
                     var $textClass = $("<div>", {
                         "class": "text", "text": option.Label
